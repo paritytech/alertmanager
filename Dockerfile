@@ -1,9 +1,18 @@
-FROM        prom/busybox:latest
-LABEL maintainer="The Prometheus Authors <prometheus-developers@googlegroups.com>"
+FROM golang:1.10-alpine AS build
 
-COPY amtool                       /bin/amtool
-COPY alertmanager                 /bin/alertmanager
-COPY examples/ha/alertmanager.yml /etc/alertmanager/alertmanager.yml
+
+ADD . /go/src/github.com/prometheus/alertmanager
+WORKDIR /go/src/github.com/prometheus/alertmanager
+RUN apk add --no-cache git make
+RUN make build
+
+
+
+FROM  prom/busybox:latest
+LABEL maintainer="Parity Devops <devops-team@parity.io>"
+
+COPY --from=build /go/src/github.com/prometheus/alertmanager/amtool          /bin/amtool
+COPY --from=build /go/src/github.com/prometheus/alertmanager/alertmanager    /bin/alertmanager
 
 RUN mkdir -p /alertmanager && \
     chown -R nobody:nogroup etc/alertmanager /alertmanager
