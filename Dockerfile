@@ -1,9 +1,9 @@
-FROM golang:1.10-alpine AS build
+FROM golang:1.11-alpine AS build
 
 
 ADD . /go/src/github.com/prometheus/alertmanager
 WORKDIR /go/src/github.com/prometheus/alertmanager
-RUN apk add --no-cache git make
+RUN apk add --no-cache git make curl
 RUN make build
 
 
