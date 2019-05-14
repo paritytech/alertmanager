@@ -14,8 +14,8 @@ LABEL maintainer="Parity Devops <devops-team@parity.io>"
 COPY --from=build /go/src/github.com/prometheus/alertmanager/amtool          /bin/amtool
 COPY --from=build /go/src/github.com/prometheus/alertmanager/alertmanager    /bin/alertmanager
 
-RUN mkdir -p /alertmanager && \
-    chown -R nobody:nogroup etc/alertmanager /alertmanager
+RUN mkdir -p /alertmanager /etc/alertmanager && \
+    chown -R nobody:nogroup /etc/alertmanager /alertmanager
 
 USER       nobody
 EXPOSE     9093

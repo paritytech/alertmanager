@@ -44,6 +44,7 @@ import (
 	"github.com/prometheus/alertmanager/config"
 	"github.com/prometheus/alertmanager/template"
 	"github.com/prometheus/alertmanager/types"
+	"golang.org/x/net/context/ctxhttp"
 )
 
 // A Notifier notifies about alerts under constraints of the given context.
